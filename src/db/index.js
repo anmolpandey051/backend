@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import { DB_NAME } from "../constants.js"
 
+// a function to connect db which is wrapped in async await and handles error
 const connectDB = async () => {
     try {
        const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`);

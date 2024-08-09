@@ -54,7 +54,7 @@ const userSchema = new Schema(
 userSchema.pre("save", async function (next) { // do not write arrow function
     if(!this.isModified("password")) return next(); // if not modified call next else hash the password
 
-    this.password = bcrypt.hash(this.password, 10) // 10 is round
+    this.password = await bcrypt.hash(this.password, 10) // 10 is round
     next()
 
 })

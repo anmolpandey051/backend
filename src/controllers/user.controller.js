@@ -8,6 +8,7 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js";
 // to send success message if everything went right
 import { ApiResponse } from "../utils/ApiResponse.js";
 
+// Registering the user in our database
 const registerUser = asyncHandler(async(req,res) => {
     // get user details from frontend
     // validation (correct formats, empty values)
@@ -99,4 +100,12 @@ const registerUser = asyncHandler(async(req,res) => {
     )
 })
 
-export {registerUser}
+// Loging the User in
+const loginUser = asyncHandler(async(req, res) => {
+
+    
+})
+export {
+    registerUser,
+    loginUser
+}

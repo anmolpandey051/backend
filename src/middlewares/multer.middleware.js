@@ -1,4 +1,4 @@
-import multer from "multer"
+import multer from "multer";
 
 const storage = multer.diskStorage({ // created an object that has properties as functions
     destination: function (req, file, cb) { // first object property 
@@ -10,5 +10,5 @@ const storage = multer.diskStorage({ // created an object that has properties as
   })
   
 export const upload = multer({ 
-    storage,
+    storage
 })

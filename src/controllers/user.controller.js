@@ -31,7 +31,7 @@ const registerUser = asyncHandler(async(req,res) => {
     }
 
     // Checking if the user already exist in database
-    const existedUser = User.findOne({ // findOne returns the first document that it finds
+    const existedUser = await User.findOne({ // findOne returns the first document that it finds
         $or: [{username}, {email}] // or operator checks for all the values such as username and email
     })
 
@@ -40,16 +40,37 @@ const registerUser = asyncHandler(async(req,res) => {
     }
 
     // checking for avatar and images
-    const avatarLocalPath = req.files?.avatar[0]?.path; // ? means if exists
-    const coverImageLocalPath = req.files?.coverImage[0]?.path;
+    const avatarLocalPath =  req.files?.avatar[0]?.path; // ? means if exists
+    //const coverImageLocalPath =  req.files?.coverImage[0]?.path;
+
+    let coverImageLocalPath;
+    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0)
+    {
+        coverImageLocalPath = req.files.coverImage[0].path;
+    }
 
     if (!avatarLocalPath) {
         throw new ApiError(400, "Avatar file is required")
     }
 
+    // To see what is req.file returning 
+    console.log(req.files); // OUTPUT: avatar: [
+    //     {
+    //       fieldname: 'avatar',
+    //       originalname: 'Free-icon.png',
+    //       encoding: '7bit',
+    //       mimetype: 'image/png',
+    //       destination: './public/temp',
+    //       filename: 'Free-icon.png',
+    //       path: 'public/temp/Free-icon.png',
+    //       size: 311710
+    //     }
+    //   ],
+
     // uploading in cloudinary 
     const avatar = await uploadOnCloudinary(avatarLocalPath)
     const coverImage = await uploadOnCloudinary(coverImageLocalPath)
+
 
     if (!avatar) {
         throw new ApiError(400, "Avatar file is required")
